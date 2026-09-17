@@ -129,6 +129,18 @@
                             <input id="queryName" type="text" placeholder="What is this query for? (e.g., Active Accounts with Contacts)" autocomplete="off" />
                         </div>
 
+                        <!-- View Mode Switcher (Code Editor vs Visual Clause Builder) -->
+                        <div class="view-mode-switch" title="Switch between Code Editor and Visual Clause Builder">
+                            <button id="btnViewCode" class="view-mode-btn active" onclick="switchStudioView('code')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                <span>Code</span>
+                            </button>
+                            <button id="btnViewVisual" class="view-mode-btn" onclick="switchStudioView('visual')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                <span>Visual Builder</span>
+                            </button>
+                        </div>
+
                         <!-- Action Buttons Group -->
                         <div class="toolbar-actions-group">
                             <!-- Syntax Validation Pill -->
@@ -218,7 +230,7 @@
             </header>
 
             <!-- CodeMirror Editor Main Area -->
-            <div class="editor-container">
+            <div id="editorContainer" class="editor-container">
                 <textarea id="odataEditor" wrap="off"></textarea>
 
                 <!-- Floating Validation Error Banner -->
@@ -233,6 +245,11 @@
                     </div>
                     <button class="btn-sm-secondary" onclick="document.getElementById('validationToastBar').classList.remove('active')">Dismiss</button>
                 </div>
+            </div>
+
+            <!-- Visual Clause Builder Container (Toggleable) -->
+            <div id="visualBuilderContainer" class="visual-builder-container">
+                <!-- Injected dynamically by clause-builder.js -->
             </div>
 
             <!-- Studio Bottom Configuration & Execution Bar -->
@@ -566,6 +583,7 @@
     <script src="js/env-manager.js"></script>
     <script src="js/query-library.js"></script>
     <script src="js/code-generator.js"></script>
+    <script src="js/clause-builder.js"></script>
     <script src="js/clipboard.min.js"></script>
     <script src="js/app.js"></script>
 </body>

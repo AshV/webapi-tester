@@ -374,6 +374,39 @@
     }
 
     // =========================================================================
+    // Studio View Mode Switcher (Code Editor vs Visual Clause Builder)
+    // =========================================================================
+    window.switchStudioView = function (view) {
+        const editorContainer = document.getElementById('editorContainer');
+        const vbContainer = document.getElementById('visualBuilderContainer');
+        const btnCode = document.getElementById('btnViewCode');
+        const btnVisual = document.getElementById('btnViewVisual');
+
+        if (view === 'visual') {
+            if (window.ClauseBuilder) {
+                window.ClauseBuilder.syncFromCodeEditor();
+            }
+            if (editorContainer) editorContainer.classList.add('hidden');
+            if (vbContainer) vbContainer.classList.add('active');
+            if (btnCode) btnCode.classList.remove('active');
+            if (btnVisual) btnVisual.classList.add('active');
+            showToast('Switched to Visual Clause Builder', 'info');
+        } else {
+            if (window.ClauseBuilder) {
+                window.ClauseBuilder.syncToCodeEditor();
+            }
+            if (vbContainer) vbContainer.classList.remove('active');
+            if (editorContainer) editorContainer.classList.remove('hidden');
+            if (btnVisual) btnVisual.classList.remove('active');
+            if (btnCode) btnCode.classList.add('active');
+            if (window.App && window.App.editor) {
+                window.App.editor.refresh();
+            }
+            showToast('Switched to Code Editor', 'info');
+        }
+    };
+
+    // =========================================================================
     // Initialization
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
@@ -381,6 +414,11 @@
         initEditor();
         initUrlSync();
         initKeyboardShortcuts();
+
+        // Initialize Clause Builder
+        if (window.ClauseBuilder) {
+            window.ClauseBuilder.syncFromCodeEditor();
+        }
 
         // Initialize Environment Manager
         EnvManager.init((activeName, activeUrl) => {
@@ -394,6 +432,9 @@
                 const nameInput = document.getElementById('queryName');
                 if (nameInput && queryName) {
                     nameInput.value = queryName;
+                }
+                if (window.ClauseBuilder) {
+                    window.ClauseBuilder.syncFromCodeEditor();
                 }
                 onQueryChange();
             }

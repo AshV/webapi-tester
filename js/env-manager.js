@@ -354,12 +354,12 @@
         const res = addOrg(val);
         if (res.success) {
             input.value = '';
-            if (typeof root.showToast === 'function') {
-                root.showToast(`Connected to ${res.name}`, 'success');
+            if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
+                window.showToast(`Connected to ${res.name}`, 'success');
             }
         } else {
-            if (typeof root.showToast === 'function') {
-                root.showToast(res.message, 'error');
+            if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
+                window.showToast(res.message, 'error');
             }
         }
     }

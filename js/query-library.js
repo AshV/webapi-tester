@@ -250,8 +250,8 @@
         if (item && typeof onQuerySelected === 'function') {
             onQuerySelected(item.query, item.name);
             closeModal();
-            if (typeof root.showToast === 'function') {
-                root.showToast(`Loaded "${item.name}"`, 'success');
+            if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
+                window.showToast(`Loaded "${item.name}"`, 'success');
             }
         }
     }
@@ -261,8 +261,8 @@
         if (tpl && typeof onQuerySelected === 'function') {
             onQuerySelected(tpl.query, tpl.name);
             closeTemplatesModal();
-            if (typeof root.showToast === 'function') {
-                root.showToast(`Loaded template "${tpl.name}"`, 'success');
+            if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
+                window.showToast(`Loaded template "${tpl.name}"`, 'success');
             }
         }
     }
