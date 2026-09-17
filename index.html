@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239b4dca'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>" />
+
+    <!-- Core SEO Meta Tags -->
+    <title>OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio</title>
+    <meta name="description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials. Free developer studio by AshV.">
+    <meta name="keywords" content="OData, Dataverse Web API, Dynamics 365, FetchXML, Web API Tester, OData v4, PowerApps, Power Platform, XrmToolBox, Xrm.WebApi, Dataverse Query Runner, AshV">
+    <meta name="author" content="Ashish Vishwakarma (AshV)">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://www.ashishvishwakarma.com/webapi-tester/">
+    <link rel="author" href="https://www.ashishvishwakarma.com/">
+
+    <!-- Theme & Mobile Web App Capabilities -->
+    <meta name="theme-color" content="#9b4dca">
+    <meta name="color-scheme" content="light dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WebAPI Tester">
+
+    <!-- OpenGraph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="OData WebAPI Tester Online">
+    <meta property="og:url" content="https://www.ashishvishwakarma.com/webapi-tester/">
+    <meta property="og:title" content="OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio">
+    <meta property="og:description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials.">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.ashishvishwakarma.com/webapi-tester/">
+    <meta name="twitter:title" content="OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio">
+    <meta name="twitter:description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials.">
+
+    <!-- Structured Data: JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://www.ashishvishwakarma.com/webapi-tester/#webapp",
+          "name": "OData WebAPI Tester Online",
+          "url": "https://www.ashishvishwakarma.com/webapi-tester/",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "All (Web Browser)",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "description": "Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse & Dynamics 365 without sharing credentials.",
+          "author": {
+            "@type": "Person",
+            "name": "Ashish Vishwakarma",
+            "url": "https://www.ashishvishwakarma.com/",
+            "sameAs": [
+              "https://www.linkedin.com/in/ashishvishwakarma-ashv",
+              "https://github.com/AshV"
+            ]
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Test OData Web API queries in browser with zero credentials via SSO",
+            "Multi-line formatted OData editor with real-time syntax validator and linter",
+            "Multi-environment management shared with QDV and FetchXmlTester",
+            "Dataverse Prefer request headers management (FormattedValue)",
+            "Multi-language code generator for Xrm.WebApi, Power Automate, C#, cURL, Fetch",
+            "Preloaded Dataverse query templates library",
+            "Dark and Light theme support"
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="styles/codemirror.css" />
+    <link rel="stylesheet" type="text/css" href="styles/odata-theme.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Main Studio Card -->
+        <main class="studio-main-card" role="main">
+            <!-- Studio Toolbar Header -->
+            <header class="editor-toolbar" role="toolbar" aria-label="Editor controls and environment manager">
+                <div class="toolbar-content-area">
+                    <!-- Row 1: Environment Manager Strip -->
+                    <div class="env-manager-strip">
+                        <div class="env-status-side">
+                            <span class="env-label">Environment:</span>
+                            <div id="envActiveIndicatorBox" class="env-active-indicator-box" title="Active Dataverse Environment" onclick="EnvManager.openModal()">
+                                <span id="envStatusDot" class="status-dot offline"></span>
+                                <span id="envActiveLabel">No environment selected</span>
+                            </div>
+                        </div>
+
+                        <div class="env-pills-side">
+                            <div id="envPillsRow" class="env-pills-row">
+                                <!-- Injected dynamically by env-manager.js -->
+                            </div>
+                            <button class="btn-secondary" onclick="EnvManager.openModal()" title="Add or manage Dataverse environments (Ctrl+K)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Add / Manage</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Query Title and Action Controls -->
+                    <div class="toolbar-controls">
+                        <!-- Query Name Box -->
+                        <div class="query-name-box">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                            <input id="queryName" type="text" placeholder="What is this query for? (e.g., Active Accounts with Contacts)" autocomplete="off" />
+                        </div>
+
+                        <!-- Action Buttons Group -->
+                        <div class="toolbar-actions-group">
+                            <!-- Syntax Validation Pill -->
+                            <div id="statusPill" class="status-pill valid" title="OData syntax validation status">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Valid OData</span>
+                            </div>
+
+                            <!-- Beautify Button -->
+                            <button id="btnBeautify" class="btn-tool" onclick="beautifyQuery()" title="Format and indent OData clauses (Ctrl+Shift+F)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="21" y1="10" x2="3" y2="10"></line>
+                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                    <line x1="21" y1="18" x2="3" y2="18"></line>
+                                </svg>
+                                <span>Beautify</span>
+                            </button>
+
+                            <!-- Minify Button -->
+                            <button id="btnMinify" class="btn-tool" onclick="minifyQuery()" title="Minify query to a single line">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="4 14 10 14 10 20"></polyline>
+                                    <polyline points="20 10 14 10 14 4"></polyline>
+                                    <line x1="14" y1="10" x2="21" y2="3"></line>
+                                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                                </svg>
+                                <span>Minify</span>
+                            </button>
+
+                            <!-- Templates Modal Button -->
+                            <button id="btnTemplates" class="btn-tool" onclick="QueryLibrary.openTemplatesModal()" title="Browse common Dataverse OData templates">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                                <span>Templates</span>
+                            </button>
+
+                            <!-- Code Generator Button -->
+                            <button id="btnCodeGen" class="btn-tool" onclick="openCodeGenerator()" title="Generate Xrm.WebApi, Flow, C#, or cURL code">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                                <span>Code Gen</span>
+                            </button>
+
+                            <!-- Save to Library Button -->
+                            <button id="btnSaveLibrary" class="btn-tool btn-tool-accent" onclick="saveQueryToLibrary()" title="Save query to browser library (Ctrl+S)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                                <span>Save</span>
+                            </button>
+
+                            <!-- Saved Queries Button -->
+                            <button id="btnOpenSavedQueries" class="btn-tool" onclick="QueryLibrary.openModal()" title="View and load saved queries">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>Library</span>
+                                <span id="savedQueriesBadge" class="headers-badge">0</span>
+                            </button>
+
+                            <!-- Theme Toggle Button -->
+                            <button id="themeToggleBtn" class="btn-icon" onclick="toggleTheme()" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand Logo (Right Side) -->
+                <a href="https://www.ashishvishwakarma.com/" target="_blank" class="brand-logo-badge" title="Developer Studio by Ashish Vishwakarma">
+                    <span class="brand-title">WebAPI Studio</span>
+                    <span class="brand-subtitle">Dataverse &bull; OData v4</span>
+                </a>
+            </header>
+
+            <!-- CodeMirror Editor Main Area -->
+            <div class="editor-container">
+                <textarea id="odataEditor" wrap="off"></textarea>
+
+                <!-- Floating Validation Error Banner -->
+                <div id="validationToastBar" class="validation-toast-bar">
+                    <div class="validation-error-text">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span id="validationErrorText">OData syntax error detected</span>
+                    </div>
+                    <button class="btn-sm-secondary" onclick="document.getElementById('validationToastBar').classList.remove('active')">Dismiss</button>
+                </div>
+            </div>
+
+            <!-- Studio Bottom Configuration & Execution Bar -->
+            <footer class="studio-bottom-panel">
+                <div class="bottom-actions-row">
+                    <!-- HTTP Method & Version Selector -->
+                    <div class="method-version-pill" title="Target Web API endpoint version">
+                        <span class="method-tag">GET</span>
+                        <select id="apiVersionSelect" class="version-select" aria-label="Dataverse API Version">
+                            <option value="v9.2" selected>v9.2</option>
+                            <option value="v9.1">v9.1</option>
+                            <option value="v9.0">v9.0</option>
+                        </select>
+                    </div>
+
+                    <!-- Request URI Box (Editable with bidirectional sync) -->
+                    <div class="request-uri-box">
+                        <input id="requestURI" type="text" placeholder="Generated WebAPI Request URI... Paste any raw OData URL to parse" spellcheck="false" autocomplete="off" title="WebAPI Request URI (Live sync with editor; paste any URL here)" />
+                        <button id="btnCopyUri" class="uri-copy-btn" onclick="copyRequestUri()" title="Copy WebAPI Request URI to clipboard">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span id="copyUriLabel">Copy</span>
+                        </button>
+                    </div>
+
+                    <!-- Prefer Headers Button -->
+                    <button class="btn-headers-pref" onclick="openHeadersModal()" title="Configure Dataverse Prefer headers (Formatted Values, Page Size)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="21" x2="4" y2="14"></line>
+                            <line x1="4" y1="10" x2="4" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="3"></line>
+                            <line x1="20" y1="21" x2="20" y2="16"></line>
+                            <line x1="20" y1="12" x2="20" y2="3"></line>
+                            <line x1="1" y1="14" x2="7" y2="14"></line>
+                            <line x1="9" y1="8" x2="15" y2="8"></line>
+                            <line x1="17" y1="16" x2="23" y2="16"></line>
+                        </svg>
+                        <span>Headers</span>
+                        <span id="headersCountBadge" class="headers-badge">1</span>
+                    </button>
+
+                    <!-- Test OData Primary Button -->
+                    <button id="testButton" class="btn-primary-test" onclick="testOData()" title="Execute query in Microsoft Dynamics 365 WebAPI (Ctrl+Enter)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>Test OData</span>
+                    </button>
+                </div>
+
+                <!-- Hidden inputs for cross-compatibility -->
+                <input type="hidden" id="orgURL" />
+            </footer>
+        </main>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- Modals                                                                    -->
+    <!-- ========================================================================= -->
+
+    <!-- Environment Context Studio Modal (Shared with QDV & FetchXmlTester) -->
+    <div id="envModal" class="modal-overlay" onclick="if(event.target === this) EnvManager.closeModal()">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                    <h3 id="modalTitle">Environment Context Studio</h3>
+                </div>
+                <button class="modal-close-btn" onclick="EnvManager.closeModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-desc">
+                    Connect your Microsoft Dataverse / Dynamics 365 environments. Select an environment to execute OData queries directly in your browser session with zero credentials.
+                </p>
+
+                <div class="env-input-wrapper">
+                    <div class="input-with-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <input id="txtModalEnv" type="url" placeholder="https://org.crm.dynamics.com" autocomplete="off" spellcheck="false" />
+                    </div>
+                    <button id="btnModalAddEnv" class="btn-primary" onclick="EnvManager.handleAddFromModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Add</span>
+                    </button>
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 1rem; line-height: 1.4;">
+                    Tip: Full app URLs, paths, and query parameters (e.g. /main.aspx?appid=...) are automatically sanitized on paste.
+                </p>
+
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">Saved Environments</span>
+                        <span id="modalEnvCount" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">0 saved</span>
+                    </div>
+                    <div id="modalEnvList" class="env-tags-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p style="margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>100% Client-Side Browser SSO. Credentials are never stored, transmitted, or proxied.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Queries Library Modal -->
+    <div id="savedQueriesModal" class="modal-overlay" onclick="if(event.target === this) QueryLibrary.closeModal()">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="savedQueriesTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <h3 id="savedQueriesTitle">Saved Queries Library</h3>
+                </div>
+                <button class="modal-close-btn" onclick="QueryLibrary.closeModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-desc">
+                    Your frequently used OData Web API queries stored securely in browser local storage. Click any query to load it into the editor.
+                </p>
+
+                <div class="input-with-icon" style="margin-bottom: 1rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input id="txtSearchSavedQueries" type="text" placeholder="Search saved queries..." autocomplete="off" />
+                </div>
+
+                <div id="savedQueriesList" class="saved-queries-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <div class="modal-footer" style="justify-content: space-between;">
+                <span id="savedQueriesCountLabel">0 queries saved</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn-secondary" onclick="document.getElementById('importFileInput').click()" title="Import queries from JSON">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Import</span>
+                    </button>
+                    <button class="btn-secondary" onclick="QueryLibrary.exportJson()" title="Export saved queries to JSON">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Export JSON</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preloaded Templates Modal -->
+    <div id="templatesModal" class="modal-overlay" onclick="if(event.target === this) QueryLibrary.closeTemplatesModal()">
+        <div class="modal-content wide" role="dialog" aria-modal="true" aria-labelledby="templatesTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                    </svg>
+                    <h3 id="templatesTitle">Dataverse OData Templates</h3>
+                </div>
+                <button class="modal-close-btn" onclick="QueryLibrary.closeTemplatesModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-desc">
+                    Ready-to-use Dataverse query patterns illustrating nested expands, CRM date functions, the CRM.In operator, aggregations, and metadata exploration.
+                </p>
+
+                <div id="templatesList" class="templates-grid">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="QueryLibrary.closeTemplatesModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Generator Modal -->
+    <div id="codeGenModal" class="modal-overlay" onclick="if(event.target === this) CodeGenerator.closeModal()">
+        <div class="modal-content wide" role="dialog" aria-modal="true" aria-labelledby="codeGenTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <h3 id="codeGenTitle">Code Snippet Generator</h3>
+                </div>
+                <button class="modal-close-btn" onclick="CodeGenerator.closeModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <div class="modal-body" id="codeGenContent">
+                <div class="code-gen-tabs">
+                    <button class="code-tab-btn active" data-tab="xrm" onclick="CodeGenerator.switchTab('xrm')">Xrm.WebApi (JS)</button>
+                    <button class="code-tab-btn" data-tab="flow" onclick="CodeGenerator.switchTab('flow')">Power Automate</button>
+                    <button class="code-tab-btn" data-tab="fetch" onclick="CodeGenerator.switchTab('fetch')">Fetch API</button>
+                    <button class="code-tab-btn" data-tab="csharp" onclick="CodeGenerator.switchTab('csharp')">C# (HttpClient)</button>
+                    <button class="code-tab-btn" data-tab="curl" onclick="CodeGenerator.switchTab('curl')">cURL</button>
+                    <button class="code-tab-btn" data-tab="powershell" onclick="CodeGenerator.switchTab('powershell')">PowerShell</button>
+                </div>
+
+                <div class="code-snippet-box">
+                    <button class="btn-snippet-copy" onclick="copyCodeSnippet()">Copy Code</button>
+                    <pre id="codeSnippetArea" class="code-snippet-pre"></pre>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="CodeGenerator.closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataverse Request Headers Modal -->
+    <div id="headersModal" class="modal-overlay" onclick="if(event.target === this) closeHeadersModal()">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="headersTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                    </svg>
+                    <h3 id="headersTitle">Dataverse Request Headers</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeHeadersModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-desc">
+                    Configure standard Dataverse Prefer headers passed to code generators and cURL/Fetch executions.
+                </p>
+
+                <div class="headers-options-list">
+                    <label class="header-option-item">
+                        <input type="checkbox" class="header-checkbox" value='odata.include-annotations="OData.Community.Display.V1.FormattedValue"' checked />
+                        <div class="header-option-info">
+                            <span class="header-option-title">Include Formatted Values</span>
+                            <span class="header-option-desc">Returns human-readable text for optionsets, lookups, dates, and currency.</span>
+                            <code class="header-option-code">Prefer: odata.include-annotations="OData.Community.Display.V1.FormattedValue"</code>
+                        </div>
+                    </label>
+
+                    <label class="header-option-item">
+                        <input type="checkbox" class="header-checkbox" value='odata.include-annotations="Microsoft.Dynamics.CRM.associatednavigationproperty"' />
+                        <div class="header-option-info">
+                            <span class="header-option-title">Include Associated Navigation Properties</span>
+                            <span class="header-option-desc">Includes lookup navigation property names in the response payload.</span>
+                            <code class="header-option-code">Prefer: odata.include-annotations="Microsoft.Dynamics.CRM.associatednavigationproperty"</code>
+                        </div>
+                    </label>
+
+                    <label class="header-option-item">
+                        <input type="checkbox" class="header-checkbox" value='odata.maxpagesize=50' />
+                        <div class="header-option-info">
+                            <span class="header-option-title">Max Page Size (50)</span>
+                            <span class="header-option-desc">Limits the number of entities returned per page response.</span>
+                            <code class="header-option-code">Prefer: odata.maxpagesize=50</code>
+                        </div>
+                    </label>
+
+                    <label class="header-option-item">
+                        <input type="checkbox" class="header-checkbox" value='odata.track-changes' />
+                        <div class="header-option-info">
+                            <span class="header-option-title">Track Changes (Delta Queries)</span>
+                            <span class="header-option-desc">Requests a delta token to track subsequent additions and updates.</span>
+                            <code class="header-option-code">Prefer: odata.track-changes</code>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeHeadersModal()">Cancel</button>
+                <button class="btn-primary" onclick="updateSelectedHeaders()">Save Headers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFileInput" accept="application/json" style="display: none;" onchange="if(this.files[0]){ QueryLibrary.importJson(this.files[0]).then(n => showToast(`Imported ${n} queries`, 'success')).catch(err => showToast(err.message, 'error')); this.value = ''; }" />
+
+    <!-- Scripts -->
+    <script src="scripts/plurals.min.js"></script>
+    <script src="js/codemirror.js"></script>
+    <script src="js/matchbrackets.js"></script>
+    <script src="js/active-line.js"></script>
+    <script src="js/odata-mode.js"></script>
+    <script src="js/odata-parser.js"></script>
+    <script src="js/odata-validator.js"></script>
+    <script src="js/env-manager.js"></script>
+    <script src="js/query-library.js"></script>
+    <script src="js/code-generator.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

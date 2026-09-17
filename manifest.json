@@ -1,0 +1,16 @@
+{
+  "name": "OData WebAPI Tester Online",
+  "short_name": "WebAPI Tester",
+  "description": "Test, format, validate, and execute Microsoft Dataverse & Dynamics 365 OData Web API queries directly in your browser without sharing credentials.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#9b4dca",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239b4dca'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
