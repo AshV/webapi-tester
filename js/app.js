@@ -118,10 +118,26 @@
         onQueryChange();
     }
 
+    let splitSyncTimeout = null;
+    function debounceSplitSync() {
+        if (splitSyncTimeout) clearTimeout(splitSyncTimeout);
+        splitSyncTimeout = setTimeout(() => {
+            const workspace = document.getElementById('studioWorkspace');
+            if (workspace && workspace.dataset.view === 'split' && window.ClauseBuilder) {
+                window.ClauseBuilder.syncFromCodeEditor();
+            }
+        }, 250);
+    }
+
     function onQueryChange() {
         const text = App.editor ? App.editor.getValue() : '';
         validateQuery(text);
         updateGeneratedUrl(text);
+
+        const workspace = document.getElementById('studioWorkspace');
+        if (workspace && workspace.dataset.view === 'split' && window.ClauseBuilder) {
+            debounceSplitSync();
+        }
     }
 
     function validateQuery(text) {
@@ -374,35 +390,163 @@
     }
 
     // =========================================================================
-    // Studio View Mode Switcher (Code Editor vs Visual Clause Builder)
+    // Studio View Mode Switcher (Code Editor vs Visual Clause Builder vs Split)
     // =========================================================================
     window.switchStudioView = function (view) {
-        const editorContainer = document.getElementById('editorContainer');
-        const vbContainer = document.getElementById('visualBuilderContainer');
+        const workspace = document.getElementById('studioWorkspace');
+        const editorPane = document.getElementById('editorPane');
         const btnCode = document.getElementById('btnViewCode');
         const btnVisual = document.getElementById('btnViewVisual');
+        const btnSplit = document.getElementById('btnViewSplit');
+
+        if (!workspace) return;
+
+        workspace.dataset.view = view;
+
+        if (btnCode) btnCode.classList.toggle('active', view === 'code');
+        if (btnVisual) btnVisual.classList.toggle('active', view === 'visual');
+        if (btnSplit) btnSplit.classList.toggle('active', view === 'split');
 
         if (view === 'visual') {
             if (window.ClauseBuilder) {
                 window.ClauseBuilder.syncFromCodeEditor();
             }
-            if (editorContainer) editorContainer.classList.add('hidden');
-            if (vbContainer) vbContainer.classList.add('active');
-            if (btnCode) btnCode.classList.remove('active');
-            if (btnVisual) btnVisual.classList.add('active');
             showToast('Switched to Visual Clause Builder', 'info');
+        } else if (view === 'split') {
+            // Restore saved ratio or default 50%
+            const savedRatio = localStorage.getItem('webapi_split_ratio') || '50';
+            if (editorPane && window.innerWidth > 800) {
+                editorPane.style.width = savedRatio + '%';
+            }
+            if (window.ClauseBuilder) {
+                window.ClauseBuilder.syncFromCodeEditor();
+            }
+            if (window.App && window.App.editor) {
+                setTimeout(() => window.App.editor.refresh(), 50);
+            }
+            showToast('Split Screen: Code & Visual Builder side-by-side', 'info');
         } else {
+            // 'code'
             if (window.ClauseBuilder) {
                 window.ClauseBuilder.syncToCodeEditor();
             }
-            if (vbContainer) vbContainer.classList.remove('active');
-            if (editorContainer) editorContainer.classList.remove('hidden');
-            if (btnVisual) btnVisual.classList.remove('active');
-            if (btnCode) btnCode.classList.add('active');
+            if (editorPane) {
+                editorPane.style.width = '';
+            }
+            if (window.App && window.App.editor) {
+                setTimeout(() => window.App.editor.refresh(), 50);
+            }
+            showToast('Switched to Code Editor', 'info');
+        }
+    };
+
+    // =========================================================================
+    // Resizable Split Screen Drag Controller
+    // =========================================================================
+    function initSplitterDrag() {
+        const splitter = document.getElementById('workspaceSplitter');
+        const workspace = document.getElementById('studioWorkspace');
+        const editorPane = document.getElementById('editorPane');
+        if (!splitter || !workspace || !editorPane) return;
+
+        // Restore saved ratio if present
+        const savedRatio = localStorage.getItem('webapi_split_ratio');
+        if (savedRatio && window.innerWidth > 800) {
+            const num = parseFloat(savedRatio);
+            if (!isNaN(num) && num >= 20 && num <= 80) {
+                editorPane.style.width = num + '%';
+            }
+        }
+
+        let isDragging = false;
+
+        function onPointerDown(e) {
+            if (workspace.dataset.view !== 'split') return;
+            isDragging = true;
+            splitter.classList.add('dragging');
+            document.body.style.userSelect = 'none';
+            document.body.style.cursor = window.innerWidth <= 800 ? 'row-resize' : 'col-resize';
+            try {
+                splitter.setPointerCapture(e.pointerId);
+            } catch (err) {}
+        }
+
+        function onPointerMove(e) {
+            if (!isDragging) return;
+            const rect = workspace.getBoundingClientRect();
+            if (window.innerWidth <= 800) {
+                const offsetY = e.clientY - rect.top;
+                const pct = (offsetY / rect.height) * 100;
+                const clamped = Math.max(20, Math.min(80, pct));
+                editorPane.style.height = clamped + '%';
+                editorPane.style.width = '100%';
+            } else {
+                const offsetX = e.clientX - rect.left;
+                const pct = (offsetX / rect.width) * 100;
+                const clamped = Math.max(20, Math.min(80, pct));
+                editorPane.style.width = clamped + '%';
+                editorPane.style.height = '100%';
+                localStorage.setItem('webapi_split_ratio', clamped.toFixed(2));
+            }
+
             if (window.App && window.App.editor) {
                 window.App.editor.refresh();
             }
-            showToast('Switched to Code Editor', 'info');
+        }
+
+        function onPointerUp(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            splitter.classList.remove('dragging');
+            document.body.style.userSelect = '';
+            document.body.style.cursor = '';
+            try {
+                splitter.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+
+            if (window.App && window.App.editor) {
+                window.App.editor.refresh();
+            }
+        }
+
+        splitter.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+    }
+
+    // =========================================================================
+    // Documentation, OData Reference & FAQ Modal Controller
+    // =========================================================================
+    window.openDocsModal = function () {
+        const modal = document.getElementById('docsModal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeDocsModal = function () {
+        const modal = document.getElementById('docsModal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.switchDocsTab = function (tabKey) {
+        const tabs = ['syntax', 'crmfuncs', 'comparison', 'faq'];
+        tabs.forEach(t => {
+            const btn = document.getElementById(`docTabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+            const sec = document.getElementById(`docsTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+            if (btn) btn.classList.toggle('active', t === tabKey);
+            if (sec) sec.classList.toggle('active', t === tabKey);
+        });
+    };
+
+    window.toggleFaqAccordion = function (btn) {
+        const answer = btn.nextElementSibling;
+        if (!answer) return;
+        const isOpen = answer.style.display === 'block';
+        answer.style.display = isOpen ? 'none' : 'block';
+        const svg = btn.querySelector('svg');
+        if (svg) {
+            svg.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+            svg.style.transition = 'transform 0.2s ease';
         }
     };
 
@@ -414,6 +558,7 @@
         initEditor();
         initUrlSync();
         initKeyboardShortcuts();
+        initSplitterDrag();
 
         // Initialize Clause Builder
         if (window.ClauseBuilder) {

@@ -13,6 +13,13 @@ Built by [Ashish Vishwakarma (AshV)](https://www.ashishvishwakarma.com/) as the 
 ## 🌟 Key Features
 
 - **Multi-Line OData Query Editor**: Composes dense OData queries in structured, readable, multi-line formatting with automated nested indentation for `$expand(...)`.
+- **Visual Clause Builder**:
+  - Build complex queries visually with entity set auto-pluralization, field-by-field conditions, logical operators (`and`/`or`), and nested `$expand` relation cards.
+  - Full bidirectional sync with the code editor and URL bar.
+- **Resizable Split Screen Studio**:
+  - View both the Code Editor and Visual Clause Builder side-by-side.
+  - Interactive draggable divider with percentage memory and responsive stacking on mobile.
+  - Real-time debounced live sync keeps both views in sync continuously.
 - **Live OData v4 Syntax Linter & Validator**:
   - Real-time detection of unbalanced parentheses and quotes.
   - Flags common operator mistakes (`==` vs `eq`, `!=` vs `ne`, `&&` vs `and`, `||` vs `or`).
@@ -30,6 +37,8 @@ Built by [Ashish Vishwakarma (AshV)](https://www.ashishvishwakarma.com/) as the 
   - Paste any raw Dataverse Web API URL into the URI bar to automatically decode, parse, and format it into the editor.
 - **Code Snippet Generator**:
   - Generates ready-to-paste snippets for **JavaScript (Xrm.WebApi)**, **Native Fetch API**, **Power Automate 'List rows'**, **C# (HttpClient)**, **cURL**, and **PowerShell**.
+- **Interactive Documentation, Syntax Reference & FAQ**:
+  - Built-in OData reference guide, Dataverse CRM query functions catalog, FetchXML to OData cheat sheet, and comprehensive FAQ.
 - **Dataverse Request Headers & Preferences**:
   - Quick toggles for essential headers including `Prefer: odata.include-annotations="OData.Community.Display.V1.FormattedValue"`.
 - **Preloaded Dataverse Query Templates**:

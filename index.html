@@ -8,9 +8,9 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239b4dca'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>" />
 
     <!-- Core SEO Meta Tags -->
-    <title>OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio</title>
-    <meta name="description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials. Free developer studio by AshV.">
-    <meta name="keywords" content="OData, Dataverse Web API, Dynamics 365, FetchXML, Web API Tester, OData v4, PowerApps, Power Platform, XrmToolBox, Xrm.WebApi, Dataverse Query Runner, AshV">
+    <title>OData WebAPI Tester Online - Microsoft Dataverse &amp; Dynamics 365 Query Runner</title>
+    <meta name="description" content="Free online developer studio to test, format, validate, and execute Microsoft Dataverse and Dynamics 365 OData Web API queries directly in your browser without sharing credentials. Features multi-line OData syntax editor, visual clause builder, live linter, resizable split screen, and code generator for Xrm.WebApi, Power Automate, C#, and cURL.">
+    <meta name="keywords" content="OData, Dataverse Web API, Dynamics 365, FetchXML vs OData, Web API Tester, OData v4, PowerApps, Power Platform, XrmToolBox, Xrm.WebApi, Dataverse Query Runner, Visual Clause Builder, AshV">
     <meta name="author" content="Ashish Vishwakarma (AshV)">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://www.ashishvishwakarma.com/webapi-tester/">
@@ -27,17 +27,17 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="OData WebAPI Tester Online">
     <meta property="og:url" content="https://www.ashishvishwakarma.com/webapi-tester/">
-    <meta property="og:title" content="OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio">
-    <meta property="og:description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials.">
+    <meta property="og:title" content="OData WebAPI Tester Online - Microsoft Dataverse &amp; Dynamics 365 Query Runner">
+    <meta property="og:description" content="Test, format, validate, and execute Microsoft Dataverse and Dynamics 365 OData Web API queries in browser with zero credentials. Multi-line editor, visual clause builder, split screen, and code generator.">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://www.ashishvishwakarma.com/webapi-tester/">
-    <meta name="twitter:title" content="OData WebAPI Tester Online - Dynamics 365 &amp; Dataverse Query Studio">
-    <meta name="twitter:description" content="Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse &amp; Dynamics 365 without sharing credentials.">
+    <meta name="twitter:title" content="OData WebAPI Tester Online - Microsoft Dataverse &amp; Dynamics 365 Query Runner">
+    <meta name="twitter:description" content="Test, format, validate, and execute Microsoft Dataverse and Dynamics 365 OData Web API queries in browser with zero credentials. Multi-line editor, visual clause builder, split screen, and code generator.">
 
-    <!-- Structured Data: JSON-LD Schema -->
+    <!-- Structured Data: JSON-LD Schema (WebApplication, FAQPage, HowTo) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -50,7 +50,7 @@
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "All (Web Browser)",
           "browserRequirements": "Requires JavaScript. Requires HTML5.",
-          "description": "Test, format, validate, and execute OData Web API queries directly in your browser against Microsoft Dataverse & Dynamics 365 without sharing credentials.",
+          "description": "Test, format, validate, and execute Microsoft Dataverse and Dynamics 365 OData Web API queries directly in your browser without sharing credentials.",
           "author": {
             "@type": "Person",
             "name": "Ashish Vishwakarma",
@@ -68,11 +68,74 @@
           "featureList": [
             "Test OData Web API queries in browser with zero credentials via SSO",
             "Multi-line formatted OData editor with real-time syntax validator and linter",
+            "Visual Clause Builder with field-by-field conditions and nested expand relations",
+            "Resizable split screen comparing Code Editor and Visual Builder side-by-side",
             "Multi-environment management shared with QDV and FetchXmlTester",
             "Dataverse Prefer request headers management (FormattedValue)",
-            "Multi-language code generator for Xrm.WebApi, Power Automate, C#, cURL, Fetch",
+            "Multi-language code generator for Xrm.WebApi, Power Automate, C#, cURL, Fetch, PowerShell",
             "Preloaded Dataverse query templates library",
             "Dark and Light theme support"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.ashishvishwakarma.com/webapi-tester/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I test Microsoft Dataverse OData queries without sharing credentials?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "OData WebAPI Tester executes queries directly within your authenticated browser session via native Single Sign-On (SSO) in a new tab. No passwords, client secrets, or tokens are ever stored or transmitted to external servers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I format and beautify long OData Web API queries?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Paste your raw OData query URL into the Request URI bar or type directly into the Code Editor. Click Beautify to format query clauses across multiple indented lines with structured nested $expand relations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use Visual Clause Builder and Code Editor side-by-side in split screen?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Select the Split View option on the toolbar to display the Code Editor and Visual Clause Builder side-by-side with an interactive resizable divider. Any changes in one pane automatically synchronize with the other in real time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I copy Dataverse queries into Power Automate or JavaScript?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Click Code Gen in the toolbar to generate ready-to-paste snippets for Xrm.WebApi.retrieveMultipleRecords, Power Automate List rows parameters, Fetch API, C# HttpClient, cURL, and PowerShell."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "HowTo",
+          "@id": "https://www.ashishvishwakarma.com/webapi-tester/#howto",
+          "name": "How to Test Dataverse OData Web API Queries Online",
+          "description": "Step-by-step guide to run OData v4 queries against Microsoft Dataverse without third-party credentials.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Connect Dataverse Environment",
+              "text": "Add or select your Dynamics 365 or Microsoft Dataverse organization URL in the Environment Manager."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Build or Paste OData Query",
+              "text": "Compose your query using the multi-line Code Editor, Visual Clause Builder, or preloaded templates."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Execute Query",
+              "text": "Click Test OData or press Ctrl+Enter to execute the query via Web API GET in your authenticated browser session."
+            }
           ]
         }
       ]
@@ -86,6 +149,48 @@
 </head>
 
 <body>
+    <!-- NoScript SEO Fallback for Web Crawlers and Search Engines -->
+    <noscript>
+        <div class="crawler-noscript-content">
+            <h1>OData WebAPI Tester Online - Microsoft Dataverse &amp; Dynamics 365 Query Runner</h1>
+            <p><strong>OData WebAPI Tester</strong> is a 100% client-side developer studio designed to format, validate, test, and execute Microsoft Dataverse and Dynamics 365 OData v4 Web API queries directly in your browser with zero credential sharing.</p>
+
+            <h2>Key Features</h2>
+            <ul>
+                <li><strong>Browser Single Sign-On (SSO):</strong> Safely test queries in your authenticated Dataverse session with zero credentials, tokens, or proxies stored or transmitted.</li>
+                <li><strong>Multi-line OData Code Editor:</strong> Real-time syntax highlighting, bracket matching, indentation, and live OData linter for queries.</li>
+                <li><strong>Visual Clause Builder:</strong> Build complex OData queries visually with entity sets, field-by-field conditions, operators, and nested <code>$expand</code> relationships.</li>
+                <li><strong>Resizable Split Screen:</strong> Inspect Code Editor and Visual Clause Builder side-by-side with real-time bidirectional synchronization.</li>
+                <li><strong>Environment Manager:</strong> Seamlessly switch between development, UAT, and production tenants. Interoperable with FetchXmlTester and Quick Data Viewer (QDV).</li>
+                <li><strong>Code Generator:</strong> Generate production-ready code snippets for <code>Xrm.WebApi.retrieveMultipleRecords</code>, Power Automate Flow (List rows), C# HttpClient, cURL, Fetch API, and PowerShell.</li>
+            </ul>
+
+            <h2>OData Query Syntax Reference</h2>
+            <p>Supported system query options in Dataverse OData v4:</p>
+            <ul>
+                <li><code>$select</code>: Comma-separated list of attributes to return (e.g. <code>$select=name,telephone1,address1_city</code>).</li>
+                <li><code>$filter</code>: Boolean expression to filter rows (e.g. <code>$filter=statecode eq 0 and (contains(name,'Contoso') or address1_city eq 'Seattle')</code>).</li>
+                <li><code>$expand</code>: Semicolon-delimited nested relationship queries (e.g. <code>$expand=primarycontactid($select=fullname,emailaddress1;$filter=donotemail eq false)</code>).</li>
+                <li><code>$orderby</code>: Sort order for results (e.g. <code>$orderby=createdon desc</code>).</li>
+                <li><code>$top</code>: Number of rows to return per page (e.g. <code>$top=50</code>).</li>
+                <li><code>$count</code>: Boolean flag to return the total row count (e.g. <code>$count=true</code>).</li>
+            </ul>
+
+            <h2>Frequently Asked Questions</h2>
+            <h3>How do I test Microsoft Dataverse OData queries without sharing credentials?</h3>
+            <p>OData WebAPI Tester executes queries directly within your authenticated browser session via native Single Sign-On (SSO) in a new tab. No passwords, client secrets, or tokens are ever stored or transmitted to external servers.</p>
+
+            <h3>How do I format and beautify long OData Web API queries?</h3>
+            <p>Paste your raw OData query URL into the Request URI bar or type directly into the Code Editor. Click Beautify to format query clauses across multiple indented lines with structured nested $expand relations.</p>
+
+            <h3>Can I use Visual Clause Builder and Code Editor side-by-side in split screen?</h3>
+            <p>Yes. Select the Split View option on the toolbar to display the Code Editor and Visual Clause Builder side-by-side with an interactive resizable divider. Any changes in one pane automatically synchronize with the other in real time.</p>
+
+            <h3>How do I copy Dataverse queries into Power Automate or JavaScript?</h3>
+            <p>Click Code Gen in the toolbar to generate ready-to-paste snippets for Xrm.WebApi.retrieveMultipleRecords, Power Automate List rows parameters, Fetch API, C# HttpClient, cURL, and PowerShell.</p>
+        </div>
+    </noscript>
+
     <div class="app-container">
         <!-- Main Studio Card -->
         <main class="studio-main-card" role="main">
@@ -129,8 +234,8 @@
                             <input id="queryName" type="text" placeholder="What is this query for? (e.g., Active Accounts with Contacts)" autocomplete="off" />
                         </div>
 
-                        <!-- View Mode Switcher (Code Editor vs Visual Clause Builder) -->
-                        <div class="view-mode-switch" title="Switch between Code Editor and Visual Clause Builder">
+                        <!-- View Mode Switcher (Code Editor vs Visual Clause Builder vs Split Screen) -->
+                        <div class="view-mode-switch" title="Switch view layout: Code Editor, Visual Clause Builder, or Resizable Split Screen">
                             <button id="btnViewCode" class="view-mode-btn active" onclick="switchStudioView('code')">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
                                 <span>Code</span>
@@ -138,6 +243,10 @@
                             <button id="btnViewVisual" class="view-mode-btn" onclick="switchStudioView('visual')">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                                 <span>Visual Builder</span>
+                            </button>
+                            <button id="btnViewSplit" class="view-mode-btn" onclick="switchStudioView('split')" title="View Code and Visual Builder side-by-side in resizable split screen">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+                                <span>Split</span>
                             </button>
                         </div>
 
@@ -212,6 +321,16 @@
                                 <span id="savedQueriesBadge" class="headers-badge">0</span>
                             </button>
 
+                            <!-- Documentation & FAQ Guide Button -->
+                            <button id="btnDocsModal" class="btn-tool" onclick="openDocsModal()" title="Browse Dataverse OData v4 reference, syntax guide, and FAQ">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                                <span>Docs &amp; FAQ</span>
+                            </button>
+
                             <!-- Theme Toggle Button -->
                             <button id="themeToggleBtn" class="btn-icon" onclick="toggleTheme()" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -222,34 +341,48 @@
                     </div>
                 </div>
 
-                <!-- Brand Logo (Right Side) -->
-                <a href="https://www.ashishvishwakarma.com/" target="_blank" class="brand-logo-badge" title="Developer Studio by Ashish Vishwakarma">
-                    <span class="brand-title">WebAPI Studio</span>
+                <!-- Brand Logo (Right Side) with Semantic H1 for SEO -->
+                <div class="brand-logo-badge">
+                    <h1 class="brand-title-h1">
+                        <a href="https://www.ashishvishwakarma.com/" target="_blank" class="brand-logo-link brand-title" title="Developer Studio by Ashish Vishwakarma">WebAPI Studio</a>
+                    </h1>
                     <span class="brand-subtitle">Dataverse &bull; OData v4</span>
-                </a>
+                </div>
             </header>
 
-            <!-- CodeMirror Editor Main Area -->
-            <div id="editorContainer" class="editor-container">
-                <textarea id="odataEditor" wrap="off"></textarea>
+            <!-- Studio Workspace Area: Supports 'code', 'visual', and 'split' layout modes -->
+            <div id="studioWorkspace" class="studio-workspace-area" data-view="code">
+                <!-- Code Editor Pane -->
+                <div id="editorPane" class="workspace-pane editor-pane">
+                    <div id="editorContainer" class="editor-container">
+                        <textarea id="odataEditor" wrap="off"></textarea>
 
-                <!-- Floating Validation Error Banner -->
-                <div id="validationToastBar" class="validation-toast-bar">
-                    <div class="validation-error-text">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        <span id="validationErrorText">OData syntax error detected</span>
+                        <!-- Floating Validation Error Banner -->
+                        <div id="validationToastBar" class="validation-toast-bar">
+                            <div class="validation-error-text">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span id="validationErrorText">OData syntax error detected</span>
+                            </div>
+                            <button class="btn-sm-secondary" onclick="document.getElementById('validationToastBar').classList.remove('active')">Dismiss</button>
+                        </div>
                     </div>
-                    <button class="btn-sm-secondary" onclick="document.getElementById('validationToastBar').classList.remove('active')">Dismiss</button>
                 </div>
-            </div>
 
-            <!-- Visual Clause Builder Container (Toggleable) -->
-            <div id="visualBuilderContainer" class="visual-builder-container">
-                <!-- Injected dynamically by clause-builder.js -->
+                <!-- Resizable Divider Splitter Handle -->
+                <div id="workspaceSplitter" class="workspace-splitter" title="Drag to resize split view">
+                    <div class="splitter-handle-bar"></div>
+                </div>
+
+                <!-- Visual Clause Builder Pane -->
+                <div id="visualBuilderPane" class="workspace-pane visual-builder-pane">
+                    <div id="visualBuilderContainer" class="visual-builder-container">
+                        <!-- Injected dynamically by clause-builder.js -->
+                    </div>
+                </div>
             </div>
 
             <!-- Studio Bottom Configuration & Execution Bar -->
@@ -565,6 +698,312 @@
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeHeadersModal()">Cancel</button>
                 <button class="btn-primary" onclick="updateSelectedHeaders()">Save Headers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Documentation, OData Reference & FAQ Modal -->
+    <div id="docsModal" class="modal-overlay" onclick="if(event.target === this) closeDocsModal()">
+        <div class="modal-content docs-modal-content" role="dialog" aria-modal="true" aria-labelledby="docsModalTitle">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <h3 id="docsModalTitle">Dataverse OData Web API Reference &amp; FAQ</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeDocsModal()" title="Close (Esc)" aria-label="Close">✕</button>
+            </div>
+
+            <!-- Docs Tab Navigation -->
+            <div class="docs-tab-nav">
+                <button id="docTabBtnSyntax" class="docs-tab-btn active" onclick="switchDocsTab('syntax')">OData Syntax Guide</button>
+                <button id="docTabBtnCrmfuncs" class="docs-tab-btn" onclick="switchDocsTab('crmfuncs')">Dataverse Functions</button>
+                <button id="docTabBtnComparison" class="docs-tab-btn" onclick="switchDocsTab('comparison')">FetchXML vs OData</button>
+                <button id="docTabBtnFaq" class="docs-tab-btn" onclick="switchDocsTab('faq')">Frequently Asked Questions</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Tab 1: OData Syntax Guide -->
+                <div id="docsTabSyntax" class="docs-section active">
+                    <div class="docs-block">
+                        <h4 class="docs-heading">System Query Options</h4>
+                        <div class="docs-table-wrapper">
+                            <table class="docs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Description</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>$select</code></td>
+                                        <td>Comma-delimited list of attributes to retrieve</td>
+                                        <td><code>$select=name,telephone1,address1_city</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$filter</code></td>
+                                        <td>Boolean expression to filter entity rows</td>
+                                        <td><code>$filter=statecode eq 0 and statuscode eq 1</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$expand</code></td>
+                                        <td>Include navigation property records (semicolon-delimited subclauses)</td>
+                                        <td><code>$expand=primarycontactid($select=fullname,emailaddress1)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$orderby</code></td>
+                                        <td>Sort query results ascending or descending</td>
+                                        <td><code>$orderby=name asc, createdon desc</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$top</code></td>
+                                        <td>Limit the maximum number of rows returned</td>
+                                        <td><code>$top=50</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$skip</code></td>
+                                        <td>Skip specified number of rows in results</td>
+                                        <td><code>$skip=100</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>$count</code></td>
+                                        <td>Retrieve total matching record count</td>
+                                        <td><code>$count=true</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="docs-block">
+                        <h4 class="docs-heading">Filter Operators</h4>
+                        <div class="docs-table-wrapper">
+                            <table class="docs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Operator</th>
+                                        <th>Type</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>eq</code> / <code>ne</code></td>
+                                        <td>Equality / Inequality</td>
+                                        <td><code>statecode eq 0</code>, <code>donotemail ne true</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>gt</code> / <code>ge</code></td>
+                                        <td>Greater than / or equal</td>
+                                        <td><code>revenue gt 50000</code>, <code>createdon ge 2026-01-01</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>lt</code> / <code>le</code></td>
+                                        <td>Less than / or equal</td>
+                                        <td><code>numberofemployees le 100</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>and</code> / <code>or</code> / <code>not</code></td>
+                                        <td>Logical Conjunctions</td>
+                                        <td><code>statecode eq 0 and not (statuscode eq 2)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>contains(a, b)</code></td>
+                                        <td>String function</td>
+                                        <td><code>contains(name, 'Contoso')</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>startswith(a, b)</code></td>
+                                        <td>String function</td>
+                                        <td><code>startswith(accountnumber, 'ACC')</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>endswith(a, b)</code></td>
+                                        <td>String function</td>
+                                        <td><code>endswith(telephone1, '00')</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="docs-callout">
+                        <strong>Important Rule in Dataverse:</strong> Inside nested <code>$expand</code> clauses, nested parameters MUST be separated by <strong>semicolons (<code>;</code>)</strong>, not ampersands (<code>&amp;</code>). For example: <code>$expand=primarycontactid($select=fullname;$filter=donotemail eq false)</code>.
+                    </div>
+                </div>
+
+                <!-- Tab 2: Dataverse CRM Query Functions -->
+                <div id="docsTabCrmfuncs" class="docs-section">
+                    <div class="docs-block">
+                        <h4 class="docs-heading">Special Dataverse CRM Filter Functions</h4>
+                        <p class="docs-text">Microsoft Dataverse supports specialized CRM query functions prefixed with <code>Microsoft.Dynamics.CRM.</code>:</p>
+                        <div class="docs-table-wrapper">
+                            <table class="docs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Function</th>
+                                        <th>Description</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>In(PropertyName='...',PropertyValues=[...])</code></td>
+                                        <td>Match values in a set</td>
+                                        <td><code>Microsoft.Dynamics.CRM.In(PropertyName='address1_city',PropertyValues=['Seattle','Chicago'])</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Between(PropertyName='...',PropertyValues=[...])</code></td>
+                                        <td>Match range between two values</td>
+                                        <td><code>Microsoft.Dynamics.CRM.Between(PropertyName='revenue',PropertyValues=[10000,50000])</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EqualUserId(PropertyName='...')</code></td>
+                                        <td>Current logged-in user</td>
+                                        <td><code>Microsoft.Dynamics.CRM.EqualUserId(PropertyName='ownerid')</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Last7Days(PropertyName='...')</code></td>
+                                        <td>Date in the last 7 days</td>
+                                        <td><code>Microsoft.Dynamics.CRM.Last7Days(PropertyName='createdon')</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>ThisMonth(PropertyName='...')</code></td>
+                                        <td>Date within current month</td>
+                                        <td><code>Microsoft.Dynamics.CRM.ThisMonth(PropertyName='modifiedon')</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>NextXDays(PropertyName='...',PropertyValues=[14])</code></td>
+                                        <td>Date in next X days</td>
+                                        <td><code>Microsoft.Dynamics.CRM.NextXDays(PropertyName='scheduledend',PropertyValues=[14])</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: FetchXML vs OData -->
+                <div id="docsTabComparison" class="docs-section">
+                    <div class="docs-block">
+                        <h4 class="docs-heading">FetchXML vs OData v4 Web API Quick Reference</h4>
+                        <div class="docs-table-wrapper">
+                            <table class="docs-table">
+                                <thead>
+                                    <tr>
+                                        <th>FetchXML Element</th>
+                                        <th>OData v4 Web API Equivalent</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>&lt;entity name="account"&gt;</code></td>
+                                        <td><code>/api/data/v9.2/accounts</code></td>
+                                        <td>OData uses the plural entity set name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;attribute name="name" /&gt;</code></td>
+                                        <td><code>$select=name</code></td>
+                                        <td>Comma-separated attribute list</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;filter type="and"&gt;</code></td>
+                                        <td><code>$filter=... and ...</code></td>
+                                        <td>Logical expression</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;condition attribute="statecode" operator="eq" value="0" /&gt;</code></td>
+                                        <td><code>$filter=statecode eq 0</code></td>
+                                        <td>Uses <code>eq</code>, <code>ne</code>, <code>gt</code>, etc.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;link-entity name="contact" from="contactid" to="primarycontactid"&gt;</code></td>
+                                        <td><code>$expand=primarycontactid(...)</code></td>
+                                        <td>Uses single-valued navigation property name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;order attribute="name" descending="false" /&gt;</code></td>
+                                        <td><code>$orderby=name asc</code></td>
+                                        <td>Sort direction: <code>asc</code> or <code>desc</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>&lt;fetch count="50"&gt;</code></td>
+                                        <td><code>$top=50</code></td>
+                                        <td>Limits returned records</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Frequently Asked Questions -->
+                <div id="docsTabFaq" class="docs-section">
+                    <div class="docs-faq-list">
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>How do I test Microsoft Dataverse OData queries without sharing credentials?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                OData WebAPI Tester executes queries directly within your authenticated browser session via native Single Sign-On (SSO) in a new tab. No passwords, client secrets, or bearer tokens are ever stored or transmitted to external servers. Your credentials never leave your browser.
+                            </div>
+                        </div>
+
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>How do I format and beautify long OData Web API queries?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                Paste your raw OData query URL into the Request URI bar or type directly into the Code Editor. Click Beautify (or press Ctrl+Shift+F) to format query clauses across multiple indented lines with structured nested $expand relations.
+                            </div>
+                        </div>
+
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>Can I use Visual Clause Builder and Code Editor side-by-side in split screen?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                Yes. Click the "Split" button on the toolbar. The Code Editor and Visual Clause Builder are displayed side-by-side with an interactive resizable divider. Any changes made in the visual builder immediately update the code editor, and edits in the code editor synchronize with the visual builder in real time.
+                            </div>
+                        </div>
+
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>How do I copy Dataverse queries into Power Automate or JavaScript?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                Click "Code Gen" in the toolbar. Select "Power Automate" to view the exact values to paste into the Table Name, Select Columns, Filter Rows, Expand Query, and Sort By inputs of the "List rows" action. You can also select "Xrm.WebApi" for JavaScript, "C#", "cURL", "Fetch API", or "PowerShell".
+                            </div>
+                        </div>
+
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>How do I get formatted values (e.g. OptionSet labels and lookup names)?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                Click the "Headers" button in the bottom panel and ensure <code>Include Formatted Values</code> is checked. This adds the HTTP header <code>Prefer: odata.include-annotations="OData.Community.Display.V1.FormattedValue"</code>, instructing Dataverse to return human-readable text alongside numerical option set codes and GUIDs.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query-data-web-api" target="_blank" style="margin-right: auto; color: var(--primary); text-decoration: none; font-size: 0.8rem; font-weight: 600;">
+                    Microsoft Official Dataverse Web API Docs &rarr;
+                </a>
+                <button class="btn-primary" onclick="closeDocsModal()">Got it</button>
             </div>
         </div>
     </div>
