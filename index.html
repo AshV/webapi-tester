@@ -301,6 +301,26 @@
                                 <span>Code Gen</span>
                             </button>
 
+                            <!-- Open File Button -->
+                            <button id="btnOpenFile" class="btn-tool" onclick="openLocalQueryFile()" title="Load OData query from a local file (Ctrl+O)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span>Open</span>
+                            </button>
+
+                            <!-- Share Link Button -->
+                            <button id="btnShareLink" class="btn-tool" onclick="shareQueryLink()" title="Copy sharable URL containing this query and environment">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
+                                <span>Share</span>
+                            </button>
+
                             <!-- Save to Library Button -->
                             <button id="btnSaveLibrary" class="btn-tool btn-tool-accent" onclick="saveQueryToLibrary()" title="Save query to browser library (Ctrl+S)">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -995,6 +1015,24 @@
                                 Click the "Headers" button in the bottom panel and ensure <code>Include Formatted Values</code> is checked. This adds the HTTP header <code>Prefer: odata.include-annotations="OData.Community.Display.V1.FormattedValue"</code>, instructing Dataverse to return human-readable text alongside numerical option set codes and GUIDs.
                             </div>
                         </div>
+
+                        <div class="docs-faq-item">
+                            <button class="docs-faq-question" onclick="toggleFaqAccordion(this)">
+                                <span>Can I load queries from a file or URL query string (like FetchXmlTester)?</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="docs-faq-answer">
+                                Yes! WebAPI Studio fully supports loading queries from external files and URL query parameters with full FetchXmlTester parity:
+                                <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+                                    <li><code>?load=&lt;url&gt;</code> or <code>?url=&lt;url&gt;</code> or <code>?file=&lt;url&gt;</code>: Fetches and loads any remote OData query file (including raw GitHub links).</li>
+                                    <li><code>?query=&lt;odata&gt;</code> or <code>?q=&lt;odata&gt;</code>: Directly populates the editor from a URL-encoded query.</li>
+                                    <li><code>?env=&lt;org_url&gt;</code>: Automatically connects to your specified Dataverse tenant.</li>
+                                    <li><code>?view=split</code>: Opens directly in resizable split screen mode.</li>
+                                    <li><strong>Open Local File:</strong> Click <strong>Open</strong> in the toolbar (or press Ctrl+O) to load any <code>.odata</code>, <code>.txt</code>, or <code>.json</code> file from your disk.</li>
+                                    <li><strong>Share Link:</strong> Click <strong>Share</strong> in the toolbar to generate a one-click link containing your current query and environment.</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1008,8 +1046,9 @@
         </div>
     </div>
 
-    <!-- Hidden file input for import -->
+    <!-- Hidden file inputs -->
     <input type="file" id="importFileInput" accept="application/json" style="display: none;" onchange="if(this.files[0]){ QueryLibrary.importJson(this.files[0]).then(n => showToast(`Imported ${n} queries`, 'success')).catch(err => showToast(err.message, 'error')); this.value = ''; }" />
+    <input type="file" id="localQueryFileInput" accept=".odata,.txt,.sql,.json,.xml" style="display: none;" onchange="handleLocalQueryFile(this)" />
 
     <!-- Scripts -->
     <script src="scripts/plurals.min.js"></script>

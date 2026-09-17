@@ -1,0 +1,6 @@
+opportunities
+  ?$select=name, estimatedvalue, closeprobability, estimatedclosedate
+  &$filter=statecode eq 0 and estimatedvalue gt 100000
+  &$expand=customerid_account($select=name, telephone1)
+  &$orderby=estimatedvalue desc
+  &$top=20

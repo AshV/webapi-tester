@@ -362,6 +362,18 @@
             const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
             const ctrlOrCmd = isMac ? e.metaKey : e.ctrlKey;
 
+            // Ctrl/Cmd + O: Open local file
+            if (ctrlOrCmd && (e.key === 'o' || e.key === 'O')) {
+                e.preventDefault();
+                openLocalQueryFile();
+            }
+
+            // Ctrl/Cmd + Shift + S: Share Query Link
+            if (ctrlOrCmd && e.shiftKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+                shareQueryLink();
+            }
+
             // Ctrl/Cmd + Enter: Test OData
             if (ctrlOrCmd && e.key === 'Enter') {
                 e.preventDefault();
@@ -369,7 +381,7 @@
             }
 
             // Ctrl/Cmd + S: Save to Library
-            if (ctrlOrCmd && e.key === 's') {
+            if (ctrlOrCmd && !e.shiftKey && e.key === 's') {
                 e.preventDefault();
                 saveQueryToLibrary();
             }
@@ -387,6 +399,237 @@
                 if (errorBanner) errorBanner.classList.remove('active');
             }
         });
+    }
+
+    // =========================================================================
+    // Local File Loader & Sharable Link Generator
+    // =========================================================================
+    window.openLocalQueryFile = function () {
+        const fileInput = document.getElementById('localQueryFileInput');
+        if (fileInput) fileInput.click();
+    };
+
+    window.handleLocalQueryFile = function (input) {
+        const file = input.files && input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const content = e.target.result;
+            if (!content || !content.trim()) {
+                showToast('Selected file is empty', 'warning');
+                return;
+            }
+
+            const cleanName = file.name.replace(/\.[^/.]+$/, '');
+            const nameInput = document.getElementById('queryName');
+            if (nameInput) nameInput.value = cleanName;
+            document.title = `OData: ${cleanName}`;
+
+            const trimmed = content.trim();
+            let formatted = trimmed;
+
+            if (trimmed.startsWith('http') || trimmed.startsWith('/api/data/')) {
+                const parsed = ODataParser.parse(trimmed);
+                if (parsed.orgUrl && EnvManager.isValidURL(parsed.orgUrl)) {
+                    EnvManager.addOrg(parsed.orgUrl);
+                }
+                if (parsed.apiVersion) {
+                    App.apiVersion = parsed.apiVersion;
+                    const verSelect = document.getElementById('apiVersionSelect');
+                    if (verSelect) verSelect.value = parsed.apiVersion;
+                }
+                formatted = ODataParser.beautify(trimmed);
+            } else {
+                formatted = ODataParser.beautify(trimmed);
+            }
+
+            if (App.editor) {
+                App.isProgrammaticChange = true;
+                App.editor.setValue(formatted);
+                App.isProgrammaticChange = false;
+                onQueryChange();
+                if (window.ClauseBuilder) {
+                    window.ClauseBuilder.syncFromCodeEditor();
+                }
+            }
+
+            showToast(`Loaded query file: "${file.name}"`, 'success');
+        };
+        reader.onerror = function () {
+            showToast('Failed to read local file', 'error');
+        };
+        reader.readAsText(file);
+        input.value = '';
+    };
+
+    window.shareQueryLink = function () {
+        const queryText = App.editor ? App.editor.getValue().trim() : '';
+        if (!queryText) {
+            showToast('No query to share', 'warning');
+            return;
+        }
+
+        const shareUrl = new URL(window.location.origin + window.location.pathname);
+        shareUrl.searchParams.set('query', queryText);
+
+        const activeUrl = EnvManager.getActiveUrl();
+        if (activeUrl) {
+            shareUrl.searchParams.set('env', activeUrl);
+        }
+
+        const nameInput = document.getElementById('queryName');
+        if (nameInput && nameInput.value.trim()) {
+            shareUrl.searchParams.set('name', nameInput.value.trim());
+        }
+
+        const workspace = document.getElementById('studioWorkspace');
+        if (workspace && workspace.dataset.view) {
+            shareUrl.searchParams.set('view', workspace.dataset.view);
+        }
+
+        navigator.clipboard.writeText(shareUrl.toString()).then(() => {
+            showToast('Sharable query link copied to clipboard!', 'success');
+        }).catch(() => {
+            prompt('Copy this sharable query link:', shareUrl.toString());
+        });
+    };
+
+    // =========================================================================
+    // URL Query Parameters Loader (FetchXmlTester Parity: ?load=, ?url=, ?file=, ?query=, ?env=)
+    // =========================================================================
+    function loadFromUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // 1. Environment parameter (?env= or ?org=)
+        const envParam = urlParams.get('env') || urlParams.get('org');
+        if (envParam && EnvManager.isValidURL(envParam)) {
+            EnvManager.addOrg(envParam);
+        }
+
+        // 2. Query name parameter (?name= or ?title=)
+        const nameParam = urlParams.get('name') || urlParams.get('title');
+        if (nameParam) {
+            const cleanName = decodeURIComponent(nameParam);
+            const nameInput = document.getElementById('queryName');
+            if (nameInput) nameInput.value = cleanName;
+            document.title = `OData: ${cleanName}`;
+        }
+
+        // 3. View layout parameter (?view=split | visual | code)
+        const viewParam = urlParams.get('view');
+        if (viewParam && ['split', 'visual', 'code'].includes(viewParam.toLowerCase())) {
+            switchStudioView(viewParam.toLowerCase());
+        }
+
+        // 4. Remote file URL parameter (?load= or ?url= or ?file= or ?src=)
+        let remoteUrl = urlParams.get('load') || urlParams.get('url') || urlParams.get('file') || urlParams.get('src');
+        if (remoteUrl && remoteUrl.trim()) {
+            remoteUrl = remoteUrl.trim();
+
+            // Auto-convert GitHub blob URLs to raw user content URLs for direct CORS loading
+            const ghMatch = remoteUrl.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/);
+            if (ghMatch) {
+                remoteUrl = `https://raw.githubusercontent.com/${ghMatch[1]}/${ghMatch[2]}/${ghMatch[3]}/${ghMatch[4]}`;
+            }
+
+            showToast('Loading query file from URL...', 'info');
+
+            fetch(remoteUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                    return res.text();
+                })
+                .then(content => {
+                    if (!content || !content.trim()) {
+                        showToast('Remote query file is empty', 'warning');
+                        return;
+                    }
+
+                    // Extract file name from URL if query name isn't set
+                    try {
+                        const urlObj = new URL(remoteUrl, window.location.href);
+                        const parts = urlObj.pathname.split('/');
+                        const filename = parts[parts.length - 1];
+                        const nameInput = document.getElementById('queryName');
+                        if (filename && nameInput && !nameInput.value) {
+                            const cleanName = decodeURIComponent(filename).replace(/\.[^/.]+$/, '');
+                            nameInput.value = cleanName;
+                            document.title = `OData: ${cleanName}`;
+                        }
+                    } catch (e) {}
+
+                    // Load content into editor
+                    const trimmed = content.trim();
+                    let formatted = trimmed;
+
+                    if (trimmed.startsWith('http') || trimmed.startsWith('/api/data/')) {
+                        const parsed = ODataParser.parse(trimmed);
+                        if (parsed.orgUrl && EnvManager.isValidURL(parsed.orgUrl)) {
+                            EnvManager.addOrg(parsed.orgUrl);
+                        }
+                        if (parsed.apiVersion) {
+                            App.apiVersion = parsed.apiVersion;
+                            const verSelect = document.getElementById('apiVersionSelect');
+                            if (verSelect) verSelect.value = parsed.apiVersion;
+                        }
+                        formatted = ODataParser.beautify(trimmed);
+                    } else {
+                        formatted = ODataParser.beautify(trimmed);
+                    }
+
+                    if (App.editor) {
+                        App.isProgrammaticChange = true;
+                        App.editor.setValue(formatted);
+                        App.isProgrammaticChange = false;
+                        onQueryChange();
+                        if (window.ClauseBuilder) {
+                            window.ClauseBuilder.syncFromCodeEditor();
+                        }
+                    }
+
+                    showToast('Query loaded successfully from URL', 'success');
+                })
+                .catch(err => {
+                    console.error('Failed to load file from URL:', err);
+                    showToast(`Failed to load URL (check CORS / link): ${err.message}`, 'error');
+                });
+            return;
+        }
+
+        // 5. Raw inline query parameter (?query= or ?q= or ?odata=)
+        const inlineQuery = urlParams.get('query') || urlParams.get('q') || urlParams.get('odata');
+        if (inlineQuery && inlineQuery.trim()) {
+            const raw = inlineQuery.trim();
+            let formatted = raw;
+
+            if (raw.startsWith('http') || raw.startsWith('/api/data/')) {
+                const parsed = ODataParser.parse(raw);
+                if (parsed.orgUrl && EnvManager.isValidURL(parsed.orgUrl)) {
+                    EnvManager.addOrg(parsed.orgUrl);
+                }
+                if (parsed.apiVersion) {
+                    App.apiVersion = parsed.apiVersion;
+                    const verSelect = document.getElementById('apiVersionSelect');
+                    if (verSelect) verSelect.value = parsed.apiVersion;
+                }
+                formatted = ODataParser.beautify(raw);
+            } else {
+                formatted = ODataParser.beautify(raw);
+            }
+
+            if (App.editor) {
+                App.isProgrammaticChange = true;
+                App.editor.setValue(formatted);
+                App.isProgrammaticChange = false;
+                onQueryChange();
+                if (window.ClauseBuilder) {
+                    window.ClauseBuilder.syncFromCodeEditor();
+                }
+            }
+
+            showToast('Query loaded from URL parameter', 'success');
+        }
     }
 
     // =========================================================================
@@ -559,6 +802,7 @@
         initUrlSync();
         initKeyboardShortcuts();
         initSplitterDrag();
+        loadFromUrlParams();
 
         // Initialize Clause Builder
         if (window.ClauseBuilder) {
