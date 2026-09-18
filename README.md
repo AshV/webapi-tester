@@ -1,7 +1,6 @@
 # OData WebAPI Tester Studio
 
 [![GitHub Pages](https://img.shields.io/badge/Hosted%20On-GitHub%20Pages-blue.svg)](https://www.ashishvishwakarma.com/webapi-tester/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![Dataverse](https://img.shields.io/badge/Microsoft-Dataverse%20Web%20API-0078D4.svg)](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/overview)
 
 A modern, 100% client-side **Microsoft Dataverse & Dynamics 365 OData Web API Query Tester Studio**, designed to run directly in the browser with **zero credential storage, zero proxies, and complete privacy**.
